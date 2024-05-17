@@ -1,0 +1,126 @@
+
+public abstract class Progressao {
+    protected int atual;
+
+    public Progressao(int inicio) {
+        this.atual = inicio;
+    }
+
+    public abstract int proximo();
+
+    public abstract void reiniciar();
+}
+
+
+public class ProgressaoAritmetica extends Progressao {
+    private int razao;
+
+    public ProgressaoAritmetica(int inicio, int razao) {
+        super(inicio);
+        this.razao = razao;
+    }
+
+    public int proximo() {
+        this.atual += razao;
+        return this.atual;
+    }
+
+    public void reiniciar() {
+        this.atual = 0;
+    }
+}
+
+
+public class ProgressaoGeometrica extends Progressao {
+    private int razao;
+
+    public ProgressaoGeometrica(int inicio, int razao) {
+        super(inicio);
+        this.razao = razao;
+    }
+
+    public int proximo() {
+        this.atual *= razao;
+        return this.atual;
+    }
+
+    public void reiniciar() {
+        this.atual = 1;
+    }
+}
+
+
+public class ProgressaoFibonacci extends Progressao {
+    private int anterior;
+
+    public ProgressaoFibonacci() {
+        super(0);
+        this.anterior = 0;
+        this.atual = 1;
+    }
+
+    public int proximo() {
+        int proximoValor = this.anterior + this.atual;
+        this.anterior = this.atual;
+        this.atual = proximoValor;
+        return this.atual;
+    }
+
+    public void reiniciar() {
+        this.anterior = 0;
+        this.atual = 1;
+    }
+}
+
+
+// Interface para Retângulo
+public interface Retangulo {
+    void desenhar(String texto);
+}
+
+// Implementação para retângulo com bordas simples
+public class RetanguloSimples implements Retangulo {
+    @Override
+    public void desenhar(String texto) {
+        int largura = texto.length() + 4;
+        System.out.println("+" + "-".repeat(largura) + "+");
+        System.out.println("| " + texto + " |");
+        System.out.println("+" + "-".repeat(largura) + "+");
+    }
+}
+
+// Implementação para retângulo com bordas duplas
+public class RetanguloDuplo implements Retangulo {
+    @Override
+    public void desenhar(String texto) {
+        int largura = texto.length() + 4;
+        System.out.println("╔" + "═".repeat(largura) + "╗");
+        System.out.println("║ " + texto + " ║");
+        System.out.println("╚" + "═".repeat(largura) + "╝");
+    }
+}
+
+
+public class FabricaRetangulo {
+    public Retangulo criarRetangulo(String tipo) {
+        if (tipo.equalsIgnoreCase("simples")) {
+            return new RetanguloSimples();
+        } else if (tipo.equalsIgnoreCase("duplo")) {
+            return new RetanguloDuplo();
+        } else {
+            throw new IllegalArgumentException("Tipo de retângulo desconhecido");
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        FabricaRetangulo fabrica = new FabricaRetangulo();
+
+        Retangulo retanguloSimples = fabrica.criarRetangulo("simples");
+        retanguloSimples.desenhar("Retângulo Simples");
+
+        Retangulo retanguloDuplo = fabrica.criarRetangulo("duplo");
+        retanguloDuplo.desenhar("Retângulo Duplo");
+    }
+}

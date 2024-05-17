@@ -1,4 +1,3 @@
-
 public abstract class Progressao {
     protected int atual;
 
@@ -10,7 +9,6 @@ public abstract class Progressao {
 
     public abstract void reiniciar();
 }
-
 
 public class ProgressaoAritmetica extends Progressao {
     private int razao;
@@ -30,7 +28,6 @@ public class ProgressaoAritmetica extends Progressao {
     }
 }
 
-
 public class ProgressaoGeometrica extends Progressao {
     private int razao;
 
@@ -48,7 +45,6 @@ public class ProgressaoGeometrica extends Progressao {
         this.atual = 1;
     }
 }
-
 
 public class ProgressaoFibonacci extends Progressao {
     private int anterior;

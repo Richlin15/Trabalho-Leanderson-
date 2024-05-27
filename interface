@@ -1,0 +1,89 @@
+package br.univille.log;
+
+public enum Level {
+    WARNING,
+    DEBUG,
+    ERROR
+}
+package br.univille.log;
+
+public interface Logger {
+    void log(Level level, String message);
+}
+package br.univille.log;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+class LoggerConsole implements Logger {
+
+    @Override
+    public void log(Level level, String message) {
+        String color;
+        switch (level) {
+            case DEBUG:
+                color = "\u001B[32m"; // Verde
+                break;
+            case WARNING:
+                color = "\u001B[33m"; // Amarelo
+                break;
+            case ERROR:
+                color = "\u001B[31m"; // Vermelho
+                break;
+            default:
+                color = "\u001B[0m"; // Reset
+        }
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        System.out.println(color + "[" + level + "] " + timestamp + " - " + message + "\u001B[0m");
+    }
+}
+package br.univille.log;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+class LoggerFile implements Logger {
+
+    private static final String FILE_NAME = "log.txt";
+
+    @Override
+    public void log(Level level, String message) {
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        String logMessage = "[" + level + "] " + timestamp + " - " + message + "\n";
+        try (FileWriter writer = new FileWriter(FILE_NAME, true)) {
+            writer.write(logMessage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+package br.univille.log;
+
+public class LoggerFactory {
+
+    public static Logger onConsole() {
+        return new LoggerConsole();
+    }
+
+    public static Logger onFile() {
+        return new LoggerFile();
+    }
+}
+package br.univille.log;
+
+public class Main {
+    public static void main(String[] args) {
+        Logger consoleLogger = LoggerFactory.onConsole();
+        Logger fileLogger = LoggerFactory.onFile();
+
+        consoleLogger.log(Level.DEBUG, "This is a debug message.");
+        consoleLogger.log(Level.WARNING, "This is a warning message.");
+        consoleLogger.log(Level.ERROR, "This is an error message.");
+
+        fileLogger.log(Level.DEBUG, "This is a debug message.");
+        fileLogger.log(Level.WARNING, "This is a warning message.");
+        fileLogger.log(Level.ERROR, "This is an error message.");
+    }
+}

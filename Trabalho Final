@@ -1,67 +1,276 @@
-Bem-vindo ao Sistema de Gestão de Aluguel
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
+class Imovel {
+    private String endereco;
+    private String tipo;
+    private double precoAluguel;
+    private int numQuartos;
 
-1. Listar Imóveis Disponíveis
-2. Registrar Novo Inquilino
+    public Imovel(String endereco, String tipo, double precoAluguel, int numQuartos) {
+        this.endereco = endereco;
+        this.tipo = tipo;
+        this.precoAluguel = precoAluguel;
+        this.numQuartos = numQuartos;
+    }
 
-3. Registrar Novo Proprietário
-4. Criar Novo Contrato de Aluguel
+    public void listarDetalhes() {
+        System.out.println("Endereço: " + endereco + " | Tipo: " + tipo + " | Preço do Aluguel: " + precoAluguel + " | Número de Quartos: " + numQuartos);
+    }
 
-5. Registrar Pagamento
-6. Encerrar Contrato de Aluguel
+    public String getEndereco() {
+        return endereco;
+    }
+}
 
-7. Sair
+class Inquilino {
+    private String nome;
+    private String cpf;
 
-Digite o número da opção desejada:
+    public Inquilino(String nome, String cpf) {
+        this.nome = nome;
+        this.cpf = cpf;
+    }
 
-class Imovel:
-    def __init__(self, endereco, tipo, preco_aluguel, num_quartos):
-        self.endereco = endereco
-        self.tipo = tipo
-        self.preco_aluguel = preco_aluguel
-        self.num_quartos = num_quartos
+    public String getNome() {
+        return nome;
+    }
+}
 
-    def listar_detalhes(self):
-        print(f"Endereço: {self.endereco} | Tipo: {self.tipo} | Preço do Aluguel: {self.preco_aluguel} | Número de Quartos: {self.num_quartos}")
+class Proprietario {
+    private String nome;
+    private String cpf;
 
+    public Proprietario(String nome, String cpf) {
+        this.nome = nome;
+        this.cpf = cpf;
+    }
 
-class SistemaDeAluguel:
-    def __init__(self):
-        self.imoveis = []
-        self.inquilinos = []
-        self.proprietarios = []
-        self.contratos = []
-        self.pagamentos = []
+    public String getNome() {
+        return nome;
+    }
+}
 
-    def menu(self):
-        while True:
-            print("\nBem-vindo ao Sistema de Gestão de Aluguel")
-            print("1. Listar Imóveis Disponíveis")
-            print("2. Registrar Novo Inquilino")
-            print("3. Registrar Novo Proprietário")
-            print("4. Criar Novo Contrato de Aluguel")
-            print("5. Registrar Pagamento")
-            print("6. Encerrar Contrato de Aluguel")
-            print("7. Sair")
-            opcao = input("Digite o número da opção desejada: ")
-            if opcao == "1":
-                self.listar_imoveis_disponiveis()
-            elif opcao == "2":
-                self.registrar_novo_inquilino()
-            elif opcao == "3":
-                self.registrar_novo_proprietario()
-            elif opcao == "4":
-                self.criar_novo_contrato_aluguel()
-            elif opcao == "5":
-                self.processar_pagamento()
-            elif opcao == "6":
-                self.encerrar_contrato()
-            elif opcao == "7":
-                print("Encerrando o sistema...")
-                break
-            else:
-                print("Opção inválida. Tente novamente.")
+class Contrato {
+    private Imovel imovel;
+    private Inquilino inquilino;
+    private Proprietario proprietario;
+    private String dataInicio;
+    private int duracao;
 
-    
-sistema = SistemaDeAluguel()
-sistema.menu()
+    public Contrato(Imovel imovel, Inquilino inquilino, Proprietario proprietario, String dataInicio, int duracao) {
+        this.imovel = imovel;
+        this.inquilino = inquilino;
+        this.proprietario = proprietario;
+        this.dataInicio = dataInicio;
+        this.duracao = duracao;
+    }
+
+    public Imovel getImovel() {
+        return imovel;
+    }
+
+    public Inquilino getInquilino() {
+        return inquilino;
+    }
+}
+
+class Pagamento {
+    private Contrato contrato;
+    private double valor;
+    private String dataPagamento;
+
+    public Pagamento(Contrato contrato, double valor, String dataPagamento) {
+        this.contrato = contrato;
+        this.valor = valor;
+        this.dataPagamento = dataPagamento;
+    }
+}
+
+class SistemaDeAluguel {
+    private List<Imovel> imoveis = new ArrayList<>();
+    private List<Inquilino> inquilinos = new ArrayList<>();
+    private List<Proprietario> proprietarios = new ArrayList<>();
+    private List<Contrato> contratos = new ArrayList<>();
+    private List<Pagamento> pagamentos = new ArrayList<>();
+
+    public void menu() {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("\nBem-vindo ao Sistema de Gestão de Aluguel");
+            System.out.println("1. Listar Imóveis Disponíveis");
+            System.out.println("2. Registrar Novo Inquilino");
+            System.out.println("3. Registrar Novo Proprietário");
+            System.out.println("4. Registrar Novo Imóvel");
+            System.out.println("5. Criar Novo Contrato de Aluguel");
+            System.out.println("6. Registrar Pagamento");
+            System.out.println("7. Encerrar Contrato de Aluguel");
+            System.out.println("8. Sair");
+            System.out.print("Digite o número da opção desejada: ");
+            String opcao = scanner.nextLine();
+            switch (opcao) {
+                case "1":
+                    listarImoveisDisponiveis();
+                    break;
+                case "2":
+                    registrarNovoInquilino(scanner);
+                    break;
+                case "3":
+                    registrarNovoProprietario(scanner);
+                    break;
+                case "4":
+                    registrarNovoImovel(scanner);
+                    break;
+                case "5":
+                    criarNovoContratoAluguel(scanner);
+                    break;
+                case "6":
+                    registrarPagamento(scanner);
+                    break;
+                case "7":
+                    encerrarContrato(scanner);
+                    break;
+                case "8":
+                    System.out.println("Encerrando o sistema...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+    }
+
+    private void listarImoveisDisponiveis() {
+        if (imoveis.isEmpty()) {
+            System.out.println("Não há imóveis disponíveis.");
+        } else {
+            for (Imovel imovel : imoveis) {
+                imovel.listarDetalhes();
+            }
+        }
+    }
+
+    private void registrarNovoInquilino(Scanner scanner) {
+        System.out.print("Digite o nome do inquilino: ");
+        String nome = scanner.nextLine();
+        System.out.print("Digite o CPF do inquilino: ");
+        String cpf = scanner.nextLine();
+        Inquilino novoInquilino = new Inquilino(nome, cpf);
+        inquilinos.add(novoInquilino);
+        System.out.println("Inquilino registrado com sucesso.");
+    }
+
+    private void registrarNovoProprietario(Scanner scanner) {
+        System.out.print("Digite o nome do proprietário: ");
+        String nome = scanner.nextLine();
+        System.out.print("Digite o CPF do proprietário: ");
+        String cpf = scanner.nextLine();
+        Proprietario novoProprietario = new Proprietario(nome, cpf);
+        proprietarios.add(novoProprietario);
+        System.out.println("Proprietário registrado com sucesso.");
+    }
+
+    private void registrarNovoImovel(Scanner scanner) {
+        System.out.print("Digite o endereço do imóvel: ");
+        String endereco = scanner.nextLine();
+        System.out.print("Digite o tipo do imóvel: ");
+        String tipo = scanner.nextLine();
+        System.out.print("Digite o preço do aluguel: ");
+        double precoAluguel = Double.parseDouble(scanner.nextLine());
+        System.out.print("Digite o número de quartos: ");
+        int numQuartos = Integer.parseInt(scanner.nextLine());
+        Imovel novoImovel = new Imovel(endereco, tipo, precoAluguel, numQuartos);
+        imoveis.add(novoImovel);
+        System.out.println("Imóvel registrado com sucesso.");
+    }
+
+    private void criarNovoContratoAluguel(Scanner scanner) {
+        if (imoveis.isEmpty() || inquilinos.isEmpty() || proprietarios.isEmpty()) {
+            System.out.println("É necessário ter pelo menos um imóvel, um inquilino e um proprietário registrados.");
+            return;
+        }
+        Imovel imovel = escolherImovel(scanner);
+        Inquilino inquilino = escolherInquilino(scanner);
+        Proprietario proprietario = escolherProprietario(scanner);
+        System.out.print("Digite a data de início do contrato (dd/mm/aaaa): ");
+        String dataInicio = scanner.nextLine();
+        System.out.print("Digite a duração do contrato em meses: ");
+        int duracao = Integer.parseInt(scanner.nextLine());
+        Contrato novoContrato = new Contrato(imovel, inquilino, proprietario, dataInicio, duracao);
+        contratos.add(novoContrato);
+        System.out.println("Contrato de aluguel criado com sucesso.");
+    }
+
+    private void registrarPagamento(Scanner scanner) {
+        if (contratos.isEmpty()) {
+            System.out.println("Não há contratos disponíveis.");
+            return;
+        }
+        Contrato contrato = escolherContrato(scanner);
+        System.out.print("Digite o valor do pagamento: ");
+        double valor = 0;
+        try {
+            valor = Double.parseDouble(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Valor inválido. O pagamento não foi registrado.");
+            return;
+        }
+        System.out.print("Digite a data do pagamento (dd/mm/aaaa): ");
+        String dataPagamento = scanner.nextLine();
+        Pagamento novoPagamento = new Pagamento(contrato, valor, dataPagamento);
+        pagamentos.add(novoPagamento);
+        System.out.println("Pagamento registrado com sucesso.");
+    }
+
+    private void encerrarContrato(Scanner scanner) {
+        if (contratos.isEmpty()) {
+            System.out.println("Não há contratos para encerrar.");
+            return;
+        }
+        Contrato contrato = escolherContrato(scanner);
+        contratos.remove(contrato);
+        System.out.println("Contrato encerrado com sucesso.");
+    }
+
+    private Imovel escolherImovel(Scanner scanner) {
+        for (int i = 0; i < imoveis.size(); i++) {
+            System.out.println((i + 1) + ". " + imoveis.get(i).getEndereco());
+        }
+        System.out.print("Escolha o imóvel pelo número: ");
+        int opcao = Integer.parseInt(scanner.nextLine());
+        return imoveis.get(opcao - 1);
+    }
+
+    private Inquilino escolherInquilino(Scanner scanner) {
+        for (int i = 0; i < inquilinos.size(); i++) {
+            System.out.println((i + 1) + ". " + inquilinos.get(i).getNome());
+        }
+        System.out.print("Escolha o inquilino pelo número: ");
+        int opcao = Integer.parseInt(scanner.nextLine());
+        return inquilinos.get(opcao - 1);
+    }
+
+    private Proprietario escolherProprietario(Scanner scanner) {
+        for (int i = 0; i < proprietarios.size(); i++) {
+            System.out.println((i + 1) + ". " + proprietarios.get(i).getNome());
+        }
+        System.out.print("Escolha o proprietário pelo número: ");
+        int opcao = Integer.parseInt(scanner.nextLine());
+        return proprietarios.get(opcao - 1);
+    }
+
+    private Contrato escolherContrato(Scanner scanner) {
+        for (int i = 0; i < contratos.size(); i++) {
+            System.out.println((i + 1) + ". Contrato do imóvel " + contratos.get(i).getImovel().getEndereco() + " com o inquilino " + contratos.get(i).getInquilino().getNome());
+        }
+        System.out.print("Escolha o contrato pelo número: ");
+        int opcao = Integer.parseInt(scanner.nextLine());
+        return contratos.get(opcao - 1);
+    }
+
+    public static void main(String[] args) {
+        SistemaDeAluguel sistema = new SistemaDeAluguel();
+        sistema.menu();
+    }
+}

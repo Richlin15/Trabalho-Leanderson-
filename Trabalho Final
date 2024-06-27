@@ -1,0 +1,69 @@
+faça um diagrama em UML desse codigo abaixo 
+
+Bem-vindo ao Sistema de Gestão de Aluguel
+
+
+1. Listar Imóveis Disponíveis
+2. Registrar Novo Inquilino
+
+3. Registrar Novo Proprietário
+4. Criar Novo Contrato de Aluguel
+
+5. Registrar Pagamento
+6. Encerrar Contrato de Aluguel
+
+7. Sair
+
+Digite o número da opção desejada:
+
+class Imovel:
+    def __init__(self, endereco, tipo, preco_aluguel, num_quartos):
+        self.endereco = endereco
+        self.tipo = tipo
+        self.preco_aluguel = preco_aluguel
+        self.num_quartos = num_quartos
+
+    def listar_detalhes(self):
+        print(f"Endereço: {self.endereco} | Tipo: {self.tipo} | Preço do Aluguel: {self.preco_aluguel} | Número de Quartos: {self.num_quartos}")
+
+
+class SistemaDeAluguel:
+    def __init__(self):
+        self.imoveis = []
+        self.inquilinos = []
+        self.proprietarios = []
+        self.contratos = []
+        self.pagamentos = []
+
+    def menu(self):
+        while True:
+            print("\nBem-vindo ao Sistema de Gestão de Aluguel")
+            print("1. Listar Imóveis Disponíveis")
+            print("2. Registrar Novo Inquilino")
+            print("3. Registrar Novo Proprietário")
+            print("4. Criar Novo Contrato de Aluguel")
+            print("5. Registrar Pagamento")
+            print("6. Encerrar Contrato de Aluguel")
+            print("7. Sair")
+            opcao = input("Digite o número da opção desejada: ")
+            if opcao == "1":
+                self.listar_imoveis_disponiveis()
+            elif opcao == "2":
+                self.registrar_novo_inquilino()
+            elif opcao == "3":
+                self.registrar_novo_proprietario()
+            elif opcao == "4":
+                self.criar_novo_contrato_aluguel()
+            elif opcao == "5":
+                self.processar_pagamento()
+            elif opcao == "6":
+                self.encerrar_contrato()
+            elif opcao == "7":
+                print("Encerrando o sistema...")
+                break
+            else:
+                print("Opção inválida. Tente novamente.")
+
+    
+sistema = SistemaDeAluguel()
+sistema.menu()

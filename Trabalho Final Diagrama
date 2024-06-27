@@ -1,0 +1,53 @@
++------------------+     +------------------+
+|      Imovel      |     |     Inquilino    |
++------------------+     +------------------+
+| - endereco       |     | - nome           |
+| - tipo           |     | - cpf            |
+| - precoAluguel   |     +------------------+
+| - numQuartos     |     | + Inquilino(nome, cpf) |
++------------------+     | + getNome()      |
+| + Imovel(endereco, tipo, precoAluguel, numQuartos) |
+| + listarDetalhes() |
+| + getEndereco()   |
++------------------+
+                      |
+                      |
+                      |
+                      |
++------------------+     +------------------+
+|   Proprietario   |     |     Contrato     |
++------------------+     +------------------+
+| - nome           |     | - imovel         |
+| - cpf            |     | - inquilino      |
++------------------+     | - proprietario   |
+| + Proprietario(nome, cpf) | | - dataInicio      |
+| + getNome()      |     | - duracao        |
++------------------+     +------------------+
+                      |   | + Contrato(imovel, inquilino, proprietario, dataInicio, duracao) |
+                      |   | + getImovel()    |
+                      |   | + getInquilino() |
+                      |   +------------------+
+                      |
++------------------+     +------------------+
+|     Pagamento    |     | SistemaDeAluguel |
++------------------+     +------------------+
+| - contrato       |     | - imoveis        |
+| - valor          |     | - inquilinos     |
+| - dataPagamento  |     | - proprietarios  |
++------------------+     | - contratos      |
+| + Pagamento(contrato, valor, dataPagamento) | | - pagamentos      |
++------------------+     +------------------+
+                      |   | + menu()         |
+                      |   | + listarImoveisDisponiveis() |
+                      |   | + registrarNovoInquilino(scanner) |
+                      |   | + registrarNovoProprietario(scanner) |
+                      |   | + registrarNovoImovel(scanner) |
+                      |   | + criarNovoContratoAluguel(scanner) |
+                      |   | + registrarPagamento(scanner) |
+                      |   | + encerrarContrato(scanner) |
+                      |   | + escolherImovel(scanner) |
+                      |   | + escolherInquilino(scanner) |
+                      |   | + escolherProprietario(scanner) |
+                      |   | + escolherContrato(scanner) |
+                      |   | + main(String[] args) |
+                      +---+------------------+
